@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.scss";
-import Sidebar from "../../components/admin/Sidebar";
 import DataTable from "../../components/admin/DataTable";
+import Sidebar from "../../components/admin/Sidebar";
 import { getAllUsers, updateUserStatus } from "../../helper/helperAdmin";
 import convertToBase64 from "../../helper/convert";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Pagination  from "../../components/admin/Pagination";
+import Pagination from "../../components/admin/Pagination";
 
 const UserList = () => {
   const [users, setUser] = useState([]);
