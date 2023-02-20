@@ -42,7 +42,6 @@ const TimeSlot = ({ secondModal, setSecondModal, data, date, play,  }) => {
     setTime(times);
     id && setId(id);
   }, []);
-  console.log("id"+id)
   const handleSubmit = (e) => {
     e.preventDefault()
   console.log("kjd"+ id)

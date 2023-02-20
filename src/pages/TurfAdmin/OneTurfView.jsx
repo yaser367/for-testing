@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Nav from "../../components/TurfAdmin/Nav";
-import Oneturf from "../../components/TurfAdmin/Oneturf";
+import Oneturf from "../../components/TurfAdmin/OneTurf";
 import Modal from "../../components/TurfAdmin/Modal";
 
 const OneTurfView = () => {
