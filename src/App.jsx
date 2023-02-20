@@ -20,6 +20,11 @@ import OneTurf from "./pages/TurfAdmin/OneTurfView";
 import UploadIMG from "./pages/TurfAdmin/UploadIMG";
 import AddLocation from "./pages/TurfAdmin/AddLocation";
 import UploadDoc from "./pages/TurfAdmin/UploadDOC";
+import TurfAdminRegister from "./components/TurfAdmin/Register"
+import ForgotPassword from "./components/TurfAdmin/ForgotPassword";
+import OtpTurfAdmin from "./components/TurfAdmin/Otp";
+import ChangePasswordTurf from "./components/TurfAdmin/ChangePassword";
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -41,6 +46,7 @@ function App() {
         {/* TurfAdmin Side */}
         <Route path="/turfAdmin/home" element={<TurfHome />} />
         <Route path="/turfAdmin/login" element={<Login />} />
+        <Route path="/turfAdmin/register" element={<TurfAdminRegister />} />
         <Route path="/turfAdmin/profile" element={<Profile />} />
         <Route path="/turfAdmin/addTurf" element={<AddTurf />} />
         <Route path="/turfAdmin/turf/:id" element={<OneTurf />} />
@@ -48,6 +54,9 @@ function App() {
         <Route path="/turfAdmin/editTurf/:id" element={<AddTurf />} />
         <Route path="/turfAdmin/addlocation/:id" element={<AddLocation />} />
         <Route path="/turfAdmin/uploadDoc/:id" element={<UploadDoc />} />
+        <Route path="/turfAdmin/forgot" element={<ForgotPassword />} />
+        <Route path="/turfAdmin/changePassword/:email" element={<ChangePasswordTurf />} />
+        <Route path="/turfAdmin/otp/:type/:value" element={<OtpTurfAdmin />} />
 
       </Routes>
   );
