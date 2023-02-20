@@ -4,7 +4,7 @@ import OneTurf from "../../components/user/OneTurf";
 
 const OneTurfView = () => {
   return (
-    <div>
+    <div >
       <Navbar />
       <OneTurf />
     </div>
