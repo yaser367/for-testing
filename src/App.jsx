@@ -30,8 +30,9 @@ import RequestsPage from "./pages/admin/RequestPage";
 import AdminLogin from "./components/admin/Login";
 import RequestTurfDetails from "./pages/admin/RequestTurfDetails";
 import Dashboard from "./pages/admin/Dashboard";
-import Layout from "./components/layout";
+import Layout from "./components/Layout"
 import Auth from "./components/TurfAdmin/Auth";
+
 
 function App() {
   const [count, setCount] = useState(0);
