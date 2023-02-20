@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../../components/admin/Sidebar";
+import Sidebar from "../../components/admin/SideBar";
 import TurfDetails from "../../components/admin/TurfDetails";
 
 const RequestTurfDetails = () => {

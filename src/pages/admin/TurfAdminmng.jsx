@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.scss";
-import Sidebar from "../../components/admin/Sidebar";
+import Sidebar from "../../components/admin/SideBar";
 import DataTable from "../../components/admin/DataTable";
 import { getAllTurfAdmin, updateAdminStatus } from "../../helper/helperAdmin";
 import convertToBase64 from "../../helper/convert";

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./Dashboard.scss";
-import Sidebar from "../../components/admin/Sidebar";
+import Sidebar from "../../components/admin/SideBar";
 import Widget from "../../components/admin/Widget";
 import Featured from "../../components/admin/Featured";
 import Chart from "../../components/admin/Chart";

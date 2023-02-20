@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.scss";
 import DataTable from "../../components/admin/DataTable";
-import Sidebar from "../../components/admin/Sidebar";
+import Sidebar from "../../components/admin/SideBar";
 import { getAllUsers, updateUserStatus } from "../../helper/helperAdmin";
 import convertToBase64 from "../../helper/convert";
 import { toast } from "react-hot-toast";

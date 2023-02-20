@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Requests from "../../components/admin/Requests";
-import Sidebar from "../../components/admin/Sidebar";
+import Sidebar from "../../components/admin/SideBar";
 import "./Dashboard.scss";
 
 const RequestsPage = () => {
