@@ -17,7 +17,9 @@ import Login from './components/TurfAdmin/Login'
 import Profile from './pages/TurfAdmin/Profile'
 import AddTurf from "./pages/TurfAdmin/AddTurfPage";
 import OneTurf from "./pages/TurfAdmin/OneTurfView";
-
+import UploadIMG from "./pages/TurfAdmin/UploadIMG";
+import AddLocation from "./pages/TurfAdmin/AddLocation";
+import UploadDoc from "./pages/TurfAdmin/UploadDOC";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -42,6 +44,10 @@ function App() {
         <Route path="/turfAdmin/profile" element={<Profile />} />
         <Route path="/turfAdmin/addTurf" element={<AddTurf />} />
         <Route path="/turfAdmin/turf/:id" element={<OneTurf />} />
+        <Route path="/turfAdmin/uploadImg/:id" element={<UploadIMG />} />
+        <Route path="/turfAdmin/editTurf/:id" element={<AddTurf />} />
+        <Route path="/turfAdmin/addlocation/:id" element={<AddLocation />} />
+        <Route path="/turfAdmin/uploadDoc/:id" element={<UploadDoc />} />
 
       </Routes>
   );
