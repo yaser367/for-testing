@@ -27,7 +27,7 @@ import ChangePasswordTurf from "./components/TurfAdmin/ChangePassword";
 import UserList from "./pages/admin/UserList";
 import TurfAdminmng from "./pages/admin/TurfAdminmng";
 import RequestsPage from "./pages/admin/RequestPage";
-import AdminLogin from "./components/TurfAdmin/Login";
+import AdminLogin from "./components/admin/Login";
 import RequestTurfDetails from "./pages/admin/RequestTurfDetails";
 import Dashboard from "./pages/admin/Dashboard";
 
