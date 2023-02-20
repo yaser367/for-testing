@@ -14,7 +14,7 @@ video{
     
     align-items: center;
     /* box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2); */
-    background: url('../assets/video/football-background.mp4');
+    /* background: url('https://res.cloudinary.com/dxdkwzuyr/video/upload/v1676697133/football-background_cosml9.mp4'); */
 }
 
 body{

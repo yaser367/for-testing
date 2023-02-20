@@ -4,7 +4,8 @@ import "../../style/Hero.module.css";
 const Hero = () => {
   return (
     <div className="hero-container text-white pb-2 ">
-      <video className="bgVideo " src='https://res.cloudinary.com/dxdkwzuyr/video/upload/v1676697133/football-background_cosml9.mp4' autoPlay muted loop />
+      <video  className="bgVideo " src='https://res.cloudinary.com/dxdkwzuyr/video/upload/v1676697133/football-background_cosml9.mp4' autoPlay muted loop />
+  
 
       <div className=" md:mt-[-70px] sm:mt-[-76px] mt-[-75px] w-full h-screen mx-auto flex flex-col justify-center text-center">
         <h2 className="md:text-4xl sm:text-2xl font-bold">
@@ -12,12 +13,10 @@ const Hero = () => {
           KERALA'S NO:1 <span className=" text-[#d417c7]">PLAYGROUND</span>
         </h2>
         <h2 className="md:text-4xl sm:text-2xl md:mt-6 font-bold">
-          
           BOOKING WEB SITE.
         </h2>
         <div className="flex justify-center items-center">
           <p className="text-[#37d417] pt-2 md:text-xl sm:text-base text-xs md:mt-2">
-          
             You Can Play
           </p>
 
@@ -27,6 +26,7 @@ const Hero = () => {
           Get Started
         </button>
       </div>
+      
     </div>
   );
 };
