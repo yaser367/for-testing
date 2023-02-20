@@ -14,6 +14,7 @@ import BookNowPage from "./pages/user/BookNow";
 import Reset from "./components/user/Reset";
 import TurfHome from "./pages/TurfAdmin/HomePage";
 import Login from './components/TurfAdmin/Login'
+import Profile from './pages/TurfAdmin/Profile'
 
 function App() {
   const [count, setCount] = useState(0);
@@ -36,6 +37,7 @@ function App() {
         {/* TurfAdmin Side */}
         <Route path="/turfAdmin/home" element={<TurfHome />} />
         <Route path="/turfAdmin/login" element={<Login />} />
+        <Route path="/turfAdmin/profile" element={<Profile />} />
 
       </Routes>
   );
