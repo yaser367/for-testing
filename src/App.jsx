@@ -8,6 +8,7 @@ import Password from "./components/user/Password";
 import ProfilePage from "./pages/user/Profile";
 import Booking from "./pages/user/Booking";
 import OneTurfView from "./pages/user/OneTurf";
+import Register from "./components/user/Register";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,6 +22,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/turf/:id" element={<OneTurfView />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
