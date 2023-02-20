@@ -30,6 +30,8 @@ import RequestsPage from "./pages/admin/RequestPage";
 import AdminLogin from "./components/admin/Login";
 import RequestTurfDetails from "./pages/admin/RequestTurfDetails";
 import Dashboard from "./pages/admin/Dashboard";
+import Layout from "./components/layout";
+import Auth from "./components/TurfAdmin/Auth";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -50,9 +52,10 @@ function App() {
         <Route path="/reset/:id" element={<Reset />} />
 
         {/* TurfAdmin Side */}
+        <Route path="/" element={<Layout />}>
+        <Route element={<Auth />}>
+
         <Route path="/turfAdmin/home" element={<TurfHome />} />
-        <Route path="/turfAdmin/login" element={<Login />} />
-        <Route path="/turfAdmin/register" element={<TurfAdminRegister />} />
         <Route path="/turfAdmin/profile" element={<Profile />} />
         <Route path="/turfAdmin/addTurf" element={<AddTurf />} />
         <Route path="/turfAdmin/turf/:id" element={<OneTurf />} />
@@ -60,10 +63,13 @@ function App() {
         <Route path="/turfAdmin/editTurf/:id" element={<AddTurf />} />
         <Route path="/turfAdmin/addlocation/:id" element={<AddLocation />} />
         <Route path="/turfAdmin/uploadDoc/:id" element={<UploadDoc />} />
+        </Route>
+        <Route path="/turfAdmin/login" element={<Login />} />
+        <Route path="/turfAdmin/register" element={<TurfAdminRegister />} />
         <Route path="/turfAdmin/forgot" element={<ForgotPassword />} />
         <Route path="/turfAdmin/changePassword/:email" element={<ChangePasswordTurf />} />
         <Route path="/turfAdmin/otp/:type/:value" element={<OtpTurfAdmin />} />
-        
+        </Route>
         {/* Admin Side */}
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/users" element={<UserList />} />
