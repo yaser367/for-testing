@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { checkout } from "../../helper/helperUser";
 import useFetch from "../../hook/fetch.hook";
 import CalenderComp from "../CalenderComp";
-// import RowRadioButtonsGroup from "../RowRadioButtonsGroup";
+import RowRadioButtonsGroup from "../RowRadioButtonsGroup";
 import { getSlot } from "../../helper/helperTurf";
 
 
@@ -80,7 +80,7 @@ const BookNow = ({ user }) => {
             >
               <p className="text-sm font-bold">Choose a game</p>
               <div className="mt-5">
-                {/* <RowRadioButtonsGroup game={game} setGame={setGame} /> */}
+                <RowRadioButtonsGroup game={game} setGame={setGame} />
               </div>
             </div>
             <div className="flex justify-center mt-4">
