@@ -148,6 +148,7 @@ export async function addSlot(id, slot, date, play) {
 
 export async function getSlot(id, game, date) {
   try {
+    console.log(id,game,date)
     const {
       data: { slot },
     } = await axios.get(`api/turfAdmin/getSlot/${date}`, {

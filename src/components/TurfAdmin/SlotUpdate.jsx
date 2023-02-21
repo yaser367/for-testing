@@ -26,6 +26,8 @@ export default function SlotUpdate({
   const [date, setDate] = useState(new Date());
   const [{ isLoading, apiData, serverError }] = useFetch(`getOneTurf/${id}`);
   const [next, setnext] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+ 
   const handleSecondModal = () => {};
 
   const toggleModal = () => {
@@ -71,9 +73,9 @@ export default function SlotUpdate({
     "23",
     "24",
   ];
-  useEffect(() => {
-    setTime(times);
-  }, []);
+  // useEffect(() => {
+  //   setTime(times);
+  // }, []);
   const handleTime = (play) => {
     setPlay(play);
   };
@@ -81,10 +83,18 @@ export default function SlotUpdate({
   const handleNext = async () => {
     setnext(!next)
     // setSecondModal(!secondModal);
-    // const slot = await getSlot(id, play, date);
-    // setData(slot);
+    const slot = await getSlot(id, play, date);
+    setData(slot);
+    const now = new Date();
+    const dString = date.toLocaleDateString();
+    const nowString = now.toLocaleDateString();
+    if (dString === nowString) {
+      setCurrentTime(now.getHours() + 1);
+    } else {
+      setCurrentTime(0);
+    }
+  
   };
-
   const handleSubmit = () => {
     const addSlotPromise = addSlot(id, slot, date, play);
     toast.promise(addSlotPromise, {
@@ -96,6 +106,16 @@ export default function SlotUpdate({
       setModal(!modal)
     });
   };
+
+  useEffect(()=>{
+    times.map((t)=>{
+      for(let i = 0 ;i< data?.slots?.length;i++){
+        if(t != data?.slots?.slot){
+          setTime(t)
+        }
+      }
+    })
+  },[data])
 
   return (
     <>
@@ -284,8 +304,9 @@ export default function SlotUpdate({
                 Select Time slot
               </h2>
               <div class="grid grid-cols-8 gap-3 mt-8">
-                {time.map((time) => (
-                  <>
+                {
+                  times.map((time)=> parseInt(time) > currentTime && (
+                    < >
                     <input
                       onChange={(e) => {
                         setSlot(e.target.value);
@@ -300,10 +321,12 @@ export default function SlotUpdate({
                       for="red-radio"
                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      {time}:00
+                      {time+":00"}
                     </label>
                   </>
-                ))}
+                  ))
+                
+                }
               </div>
 
               <div className="flex mt-10 justify-end gap-3">

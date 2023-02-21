@@ -12,7 +12,7 @@ const BookNow = ({ user }) => {
   const [date, setDate] = useState(new Date());
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [slot, setSlot] = useState("");
   const { id } = useParams();
   const [data, setData] = useState();
@@ -22,7 +22,6 @@ const BookNow = ({ user }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [orderView, setOrderView] = useState(false);
   const { username } = useAuthStore((state) => state.auth);
-  console.log(username);
   const handleClick = () => {
     if (click === true) {
       setClick(false);
@@ -41,13 +40,11 @@ const BookNow = ({ user }) => {
     const now = new Date();
     const dString = date.toLocaleDateString();
     const nowString = now.toLocaleDateString();
-    console.log(dString === nowString);
     if (dString === nowString) {
       setCurrentTime(now.getHours() + 1);
     } else {
       setCurrentTime(0);
     }
-    console.log(currentTime);
   };
   const handleOrderView = () => {
     setOrderView(true);
@@ -55,7 +52,9 @@ const BookNow = ({ user }) => {
 
   const handleCheckout = async () => {
     const registerCheckout = checkout(apiData?.price, slot, game, id , username,date);
-    const order = await registerCheckout;
+    const {order,booking} = await registerCheckout;
+    console.log(booking)
+    console.log(order)
     const options = {
       key: import.meta.env.VITE_API_RAZORPAY_KEY_ID,
       amount: order.amount,
@@ -67,7 +66,7 @@ const BookNow = ({ user }) => {
       order_id: order.id,
       callback_url: `${
         import.meta.env.VITE_API_SERVER_DOMAIN
-      }/api/paymentVerification/${order.amount}`,
+      }/api/paymentVerification/${booking._id}/${id}`,
       prefill: {
         name: "Muhammed Yaser",
         email: "yasermuhammed367@gmail.com",
@@ -86,6 +85,8 @@ const BookNow = ({ user }) => {
 
   useEffect(() => {
     handleAvailable();
+    handleShow()
+    
   }, [date]);
 
   return (
@@ -142,7 +143,7 @@ const BookNow = ({ user }) => {
                 {data &&
                   data.slots.map(
                     (s) =>
-                      parseInt(s.slot) > currentTime && (
+                      parseInt(s.slot) > currentTime && s.booked == false && (
                         <div className="flex">
                           <div class="inline-flex items-center">
                             <label

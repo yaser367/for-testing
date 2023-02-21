@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hook/fetch.hook";
+import SalesReport from "./SalesReport";
 import SlotUpdate from "./SlotUpdate";
 import TimeSlot from "./TimeSlot";
 
@@ -71,7 +72,7 @@ const Oneturf = () => {
           {/* <p className='text-center text-2xl font-bold md:mt-0 mt-8 '>Anfield Turf</p> */}
           <p className="text-center text-lg "></p>
           <div className="m-10 bg-slate-200 drop-shadow-xl  pb-20 p-4">
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center mt-2 gap-3">
               <button
                 onClick={showModal}
                 type="button"
@@ -79,13 +80,15 @@ const Oneturf = () => {
               >
                 Add slots
               </button>
+              <button
+                onClick={showModal}
+                type="button"
+                class="inline-block px-6 py-2 border-2 border-green-400 text-green-400 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+              >
+                Book Slots
+              </button>
             </div>
-            {/* <p className="font-bold text-end text-blue-500 cursor-pointer">
-              Edit
-            </p> */}
-            {/* <p className=" mt-5 font-bold text-2xl text-center">
-              Update slots for the Game
-            </p> */}
+          
             <div className=" md:flex mt-10 justify-center gap-5">
               {(apiData?.fives ||
                 apiData?.sevens ||
@@ -125,7 +128,7 @@ const Oneturf = () => {
       <div className="bg-white h-full mt-5 pb-10">
         <div className="bg-slate-200 drop-shadow-xl  w-[90%] mx-auto pt-3 ">
           <h1 className="text-center font-bold text-xl mt-6">Booking Report</h1>
-          {/* <DataTable /> */}
+          <SalesReport/>
         </div>
       </div>
     </div>
