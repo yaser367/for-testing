@@ -168,12 +168,12 @@ export async function getFilteredData(game) {
 }
 
 
-export async function checkout(amount, slot, game, id) {
+export async function checkout(amount, slot, game, id, username,date) {
   try {
+    console.log(username)
     const {
       data: { order },
-    } = await axios.post("api/checkout", { amount, slot, game, id });
-    console.log(order)
+    } = await axios.post("api/checkout", { amount, slot, game, id, username,date });
     return order;
   } catch (error) {
     return Promise.reject({ error });

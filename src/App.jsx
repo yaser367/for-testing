@@ -33,9 +33,9 @@ import Dashboard from "./pages/admin/Dashboard";
 import Layout from "./components/Layout";
 import Auth from "./components/TurfAdmin/Auth";
 import { AuthorizeUser } from "./components/user/Auth";
+import OrderSuccessPage from "./components/user/OrderSuccessPage";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <Routes>
@@ -61,6 +61,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/otp/:userName" element={<Otp />} />
       <Route path="/reset/:id" element={<Reset />} />
+      <Route path="/orderSuccess" element={<OrderSuccessPage/>} />
 
       {/* TurfAdmin Side */}
       <Route path="/" element={<Layout />}>

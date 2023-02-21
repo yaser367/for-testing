@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkout } from "../../helper/helperUser";
 import useFetch from "../../hook/fetch.hook";
@@ -6,6 +6,7 @@ import CalenderComp from "../CalenderComp";
 import RowRadioButtonsGroup from "../RowRadioButtonsGroup";
 import { getSlot } from "../../helper/helperTurf";
 import { toast, Toaster } from "react-hot-toast";
+import { useAuthStore } from "../../store/index";
 
 const BookNow = ({ user }) => {
   const [date, setDate] = useState(new Date());
@@ -18,7 +19,10 @@ const BookNow = ({ user }) => {
   const [game, setGame] = useState("");
   const [AvailableTime, setAvailableTime] = useState(false);
   const [{ isLoading, apiData, serverError }] = useFetch(`getOneTurf/${id}`);
+  const [currentTime, setCurrentTime] = useState(0);
   const [orderView, setOrderView] = useState(false);
+  const { username } = useAuthStore((state) => state.auth);
+  console.log(username);
   const handleClick = () => {
     if (click === true) {
       setClick(false);
@@ -34,15 +38,24 @@ const BookNow = ({ user }) => {
 
   const handleAvailable = () => {
     setAvailableTime(true);
+    const now = new Date();
+    const dString = date.toLocaleDateString();
+    const nowString = now.toLocaleDateString();
+    console.log(dString === nowString);
+    if (dString === nowString) {
+      setCurrentTime(now.getHours() + 1);
+    } else {
+      setCurrentTime(0);
+    }
+    console.log(currentTime);
   };
   const handleOrderView = () => {
     setOrderView(true);
   };
 
   const handleCheckout = async () => {
-    const registerCheckout = checkout(apiData?.price, slot, game, id);
+    const registerCheckout = checkout(apiData?.price, slot, game, id , username,date);
     const order = await registerCheckout;
-    console.log(order);
     const options = {
       key: import.meta.env.VITE_API_RAZORPAY_KEY_ID,
       amount: order.amount,
@@ -56,9 +69,9 @@ const BookNow = ({ user }) => {
         import.meta.env.VITE_API_SERVER_DOMAIN
       }/api/paymentVerification/${order.amount}`,
       prefill: {
-        name: "Gaurav Kumar",
-        email: "gaurav.kumar@example.com",
-        contact: "9000090000",
+        name: "Muhammed Yaser",
+        email: "yasermuhammed367@gmail.com",
+        contact: "7034943897",
       },
       notes: {
         address: "Razorpay Corporate Office",
@@ -71,6 +84,10 @@ const BookNow = ({ user }) => {
     razor.open();
   };
 
+  useEffect(() => {
+    handleAvailable();
+  }, [date]);
+
   return (
     <div className="bg-white mt-7 w-full h-[900px] pt-9">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -78,7 +95,11 @@ const BookNow = ({ user }) => {
       <div className="bg-white w-[93%] pt-8 h-[600px] mx-auto grid md:grid-cols-3">
         <div className="border-solid border-r-slate-700">
           <div className="flex justify-center">
-            <CalenderComp date={date} setDate={setDate} />
+            <CalenderComp
+              date={date}
+              handleAvailable={handleAvailable}
+              setDate={setDate}
+            />
           </div>
         </div>
         <div className="col-span-2">
@@ -95,6 +116,7 @@ const BookNow = ({ user }) => {
               <p className="text-sm font-bold">Choose a game</p>
               <div className="mt-5">
                 <RowRadioButtonsGroup
+                  apiData={apiData}
                   handleAvailable={handleAvailable}
                   game={game}
                   setGame={setGame}
@@ -118,75 +140,66 @@ const BookNow = ({ user }) => {
                 className="w-[95%]  mt-10 bg-white p-3 grid grid-cols-3 md:grid-cols-6  sm:grid-col-5 gap-4"
               >
                 {data &&
-                  data.slots.map((s) => (
-                    <div className="flex">
-                      {/* <input
-                        onCanPlay={(e) => setSlot(e.target.value)}
-                        value={s.slot}
-                        type="checkbox"
-                        name={"ldjkjdfs"}
-                        className="w-5 h-5 m-2"
-                      />
-                      <div
-                        onClick={handleClick}
-                        className="cursor-pointer   border-solid border-2 border-green-500 w-[100px] h-[35px] bg-white "
-                      >
-                        <div className="text-center my-1">
-                          <p className="text-green-500">{s.slot}:00</p>
-                        </div>
-                      </div> */}
-                      <div class="inline-flex items-center">
-                        <label
-                          class="relative flex cursor-pointer items-center rounded-full p-3"
-                          for="html"
-                          data-ripple-dark="true"
-                        >
-                          <input
-                          onClick={handleOrderView}
-                            value={s.slot}
-                            id="html"
-                            name="type"
-                            type="radio"
-                            class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
-                          />
-                          <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-3.5 w-3.5"
-                              viewBox="0 0 16 16"
-                              fill="currentColor"
+                  data.slots.map(
+                    (s) =>
+                      parseInt(s.slot) > currentTime && (
+                        <div className="flex">
+                          <div class="inline-flex items-center">
+                            <label
+                              class="relative flex cursor-pointer items-center rounded-full p-3"
+                              for="html"
+                              data-ripple-dark="true"
                             >
-                              <circle
-                                data-name="ellipse"
-                                cx="8"
-                                cy="8"
-                                r="8"
-                              ></circle>
-                            </svg>
+                              <input
+                                onChange={(e) => setSlot(e.target.value)}
+                                onClick={handleOrderView}
+                                value={s.slot}
+                                id="html"
+                                name="type"
+                                type="radio"
+                                class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-500 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                              />
+                              <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="h-3.5 w-3.5"
+                                  viewBox="0 0 16 16"
+                                  fill="currentColor"
+                                >
+                                  <circle
+                                    data-name="ellipse"
+                                    cx="8"
+                                    cy="8"
+                                    r="8"
+                                  ></circle>
+                                </svg>
+                              </div>
+                            </label>
+                            <label
+                              class="mt-px cursor-pointer select-none font-light text-gray-700"
+                              for="html"
+                            >
+                              {parseInt(s.slot) > currentTime && s.slot + ":00"}
+                            </label>
                           </div>
-                        </label>
-                        <label
-                          class="mt-px cursor-pointer select-none font-light text-gray-700"
-                          for="html"
-                        >
-                          {s.slot}:00
-                        </label>
-                      </div>
-                    </div>
-                  ))}
+                        </div>
+                      )
+                  )}
               </div>
             )}
 
             {show && (
               <div className="flex justify-center mt-5">
-             { orderView &&  <button
-                  id="checkout"
-                  onClick={handleCheckout}
-                  type="button"
-                  class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
-                >
-                  Order Now
-                </button>}
+                {orderView && (
+                  <button
+                    id="checkout"
+                    onClick={handleCheckout}
+                    type="button"
+                    class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
+                  >
+                    Order Now
+                  </button>
+                )}
               </div>
             )}
           </div>
