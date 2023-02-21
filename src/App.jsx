@@ -32,7 +32,7 @@ import RequestTurfDetails from "./pages/admin/RequestTurfDetails";
 import Dashboard from "./pages/admin/Dashboard";
 import Layout from "./components/Layout";
 import Auth from "./components/TurfAdmin/Auth";
-import { AuthorizeUser } from "./components/user/auth";
+import { AuthorizeUser } from "./components/user/Auth";
 
 function App() {
   const [count, setCount] = useState(0);
