@@ -173,6 +173,7 @@ export async function checkout(amount, slot, game, id) {
     const {
       data: { order },
     } = await axios.post("api/checkout", { amount, slot, game, id });
+    console.log(order)
     return order;
   } catch (error) {
     return Promise.reject({ error });
