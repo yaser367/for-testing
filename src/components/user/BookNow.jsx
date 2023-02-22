@@ -54,7 +54,6 @@ const BookNow = ({ user }) => {
     const registerCheckout = checkout(apiData?.price, slot, game, id , username,date);
     const {order,booking} = await registerCheckout;
     console.log(booking)
-    console.log(order)
     const options = {
       key: import.meta.env.VITE_API_RAZORPAY_KEY_ID,
       amount: order.amount,

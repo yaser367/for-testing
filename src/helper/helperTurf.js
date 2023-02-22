@@ -140,7 +140,7 @@ export async function deleteImg(id, deleteUrl) {
 
 export async function addSlot(id, slot, date, play) {
   try {
-    await axios.post("api/turfAdmin/addTimeslot", { id,slot, date, play });
+    await axios.post("api/turfAdmin/addTimeslot", { id, slot, date, play });
   } catch (error) {
     console.log(error);
   }
@@ -148,7 +148,7 @@ export async function addSlot(id, slot, date, play) {
 
 export async function getSlot(id, game, date) {
   try {
-    console.log(id,game,date)
+    console.log(id, game, date);
     const {
       data: { slot },
     } = await axios.get(`api/turfAdmin/getSlot/${date}`, {
@@ -160,5 +160,18 @@ export async function getSlot(id, game, date) {
     return slot;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getOrders(id, page) {
+  try {
+    const {
+      data: { order, totalPages },
+    } = await axios.get(`api/turfAdmin/getOrder/${id}/${page}`);
+    console.log(totalPages)
+    return { order, totalPages };
+  } catch (error) {
+    console.log(error);
+
   }
 }
