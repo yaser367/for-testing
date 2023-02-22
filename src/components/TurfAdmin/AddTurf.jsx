@@ -32,11 +32,11 @@ const Add = () => {
       .string()
       .matches(phoneRegExp, "Phone number is not valid")
       .required("Mobile Number required"),
-    gameTypes: yup
-      .array()
-      .min(1, "Choose any game")
-      .of(yup.string().required("required"))
-      .required("required"),
+    // gameTypes: yup
+    //   .array()
+    //   .min(1, "Choose any game")
+    //   .of(yup.string().required("required"))
+    //   .required("required"),
     Description: yup.string().required("description required"),
     price: yup.number().required("price required"),
     TurfName: yup.string().required("Name required"),

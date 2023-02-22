@@ -17,6 +17,7 @@ const UserList = () => {
   const [modalHeader, setModalHeader] = useState("");
 
   const token = localStorage.getItem("adminToken");
+  
   const navigate = useNavigate();
   useEffect(() => {
     if (!token) {
@@ -32,6 +33,7 @@ const UserList = () => {
       error: <b>Couldn't update</b>,
     });
     updatePromise.then(() => {
+      localStorage.removeItem("token")
       setModal(!modal);
       const usersData = getAllUsers();
       usersData.then(async () => {
