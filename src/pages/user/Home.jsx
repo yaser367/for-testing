@@ -10,9 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token")
   const { username } = useAuthStore((state) => state.auth);
   useEffect(() => {
-    if (!username) {
+    if (!token) {
       navigate("/login");
     }
   }, []);
