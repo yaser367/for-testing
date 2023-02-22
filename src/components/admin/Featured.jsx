@@ -49,17 +49,17 @@ const Featured = () => {
       </div>
       <div className="flex p-5 flex-col items-center justify-center gap-3">
         <div className="w-[100px] h-[100px]">
-          <CircularProgressbar value={70} text="70%" strokeWidth={5} />
+          <CircularProgressbar value={40} text="40%" strokeWidth={5} />
         </div>
         <p className="font-bold text-lg text-gray-400">
           Total Sales made today
         </p>
-        <p className="text-md">&#8377;23345</p>
+        <p className="text-md">&#8377;7000</p>
         <p className="text-sm text-gray-400 text-center">
           Previous transactions processing.
           <br /> Last payment may not be included.
         </p>
-        <div className="flex p-1 w-full justify-between ">
+        {/* <div className="flex p-1 w-full justify-between ">
           <div className="">
             <p className="text-gray-400 text-center">Target</p>
             <div className="flex items-center mt-3 text-green-500">
@@ -82,6 +82,7 @@ const Featured = () => {
             </div>
           </div>
         </div>
+         */}
       </div>
     </div>
   );

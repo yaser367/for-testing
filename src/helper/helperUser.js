@@ -174,7 +174,7 @@ export async function checkout(amount, slot, game, id, username,date) {
     const {
       data: { order,booking },
     } = await axios.post("api/checkout", { amount, slot, game, id, username,date });
-
+    console.log(booking)
     return {order,booking};
   } catch (error) {
     return Promise.reject({ error });

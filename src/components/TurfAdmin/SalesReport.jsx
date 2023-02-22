@@ -8,9 +8,9 @@ import { getOrders } from "../../helper/helperTurf";
 
 const SalesReport = () => {
   const { id } = useParams();
-  const [{ isLoading, apiData, serverError }] = useFetch(
-    `turfAdmin/getOrder/${id}`
-  );
+  // const [{ isLoading, apiData, serverError }] = useFetch(
+  //   `turfAdmin/getOrder/${id}`
+  // );
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState();
   const [page, setPage] = useState(0);
@@ -34,8 +34,7 @@ const SalesReport = () => {
   }
   useEffect(() => {
     fetchData();
-  }, []);
-
+  }, [page]);
 
   return (
     <div
@@ -148,8 +147,11 @@ const SalesReport = () => {
           </tr>
         </thead>
         <tbody>
-          {apiData?.map(() => (
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          {data?.map((order, i) => (
+            <tr
+              key={i}
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
               <td class="w-4 p-4">
                 <div class="flex items-center">
                   <input
@@ -168,28 +170,91 @@ const SalesReport = () => {
               >
                 <img
                   class="w-10 h-10 rounded-full"
-                  src="https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697293/avatar_d2vzjc.png"
+                  src={order.turfId.ImageUrl[0]}
                   alt="Jese image"
                 />
                 <div class="pl-3">
-                  <div class="text-base font-semibold">ljdfls</div>
-                  <div class="font-normal text-gray-500">dssd</div>
+                  <div class="text-base font-semibold">{order.turfId.TurfName}</div>
+                  <div class="font-normal text-gray-500"></div>
                 </div>
               </th>
-              <td class="px-6 py-4">dfskdj</td>
+              <td class="px-6 py-4">{order.username}</td>
               <td class="px-6 py-4">
-                <div class="flex items-center">sdf</div>
+                <div class="flex items-center">{order.amount}</div>
               </td>
               <td class="px-6 py-4">
-                <div class="flex items-center">dsfs</div>
+                <div class="flex items-center">{order.date}</div>
               </td>
               <td class="px-6 py-4">
-                <div class="flex items-center">dsfs</div>
+                <div class="flex items-center">{order.slot}</div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div>
+      <ul class="inline-flex items-center -space-x-px">
+        <li onClick={() => setPage(page - 1)}>
+          <a
+            href="#"
+            class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            <span class="sr-only">Previous</span>
+            <svg
+              class="w-5 h-5"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </a>
+        </li>
+
+        {totalPages && (
+          <ul className="inline-flex items-center -space-x-px">
+            {[...Array(totalPages)].map((e, i) => {
+              return (
+                <li
+                  key={i}
+                  onClick={() => setPage(i)}
+                  className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                  {i + 1}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        <li onClick={() => setPage(page + 1)}>
+          <a
+            href="#"
+            class="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            <span class="sr-only">Next</span>
+            <svg
+              class="w-5 h-5"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
     </div>
   );
 };

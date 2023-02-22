@@ -167,11 +167,22 @@ export async function getOrders(id, page) {
   try {
     const {
       data: { order, totalPages },
-    } = await axios.get(`api/turfAdmin/getOrder/${id}/${page}`);
-    console.log(totalPages)
+    } = await axios.get(`/api/turfAdmin/getOrder/${id}`,{
+      headers:{
+        page:page
+      }
+    });
+    console.log("t"+totalPages);
     return { order, totalPages };
   } catch (error) {
     console.log(error);
+  }
+}
 
+export async function bookSlot(id,play,date,slot){
+  try {
+    await axios.put('/api/turfAdmin/bookSlot',{id,play,date,slot})
+  } catch (error) {
+    console.log(error);
   }
 }

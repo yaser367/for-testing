@@ -78,3 +78,20 @@ export async function rejectReq(id){
     
   }
 }   
+
+export async function getAllOrder (){
+  try {
+    const {data:{order}} = await axios.get('/api/admin/getAllOrder')
+    return order;
+  } catch (error) {
+    
+  }
+}
+
+export async function totalSale (){
+  try {
+    const {data:{totalsales}} = await axios.get('/api/admin/totalSale')
+  } catch (error) {
+    
+  }
+}

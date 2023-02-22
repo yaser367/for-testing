@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -10,17 +10,17 @@ import {
 } from "recharts";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { totalSale } from "../../helper/helperAdmin";
 
 const data = [
-  { name: "January", Total: 1500 },
-  { name: "February", Total: 2400 },
-  { name: "March", Total: 900 },
-  { name: "April", Total: 3400 },
-  { name: "May", Total: 2000 },
-  { name: "June", Total: 1400 },
+
+  { name: "February", Total: 7000 },
+
 ];
 
 const Chart = () => {
+
+  const [datas,setDatas] = useState([])
   const printRef = useRef();
   const handleDownloadPdf = async () => {
     const element = printRef.current;
@@ -34,6 +34,15 @@ const Chart = () => {
     pdf.addImage(data, "PNG", 0, 0, pdfwidth, pdfHeight);
     pdf.save("print.pdf");
   };
+
+  const fetchData = async() =>{
+    const sum = await totalSale()
+    setDatas(sum)
+  }
+
+  useEffect(()=>{
+    fetchData()
+  },[])
   return (
     <div
       ref={printRef}

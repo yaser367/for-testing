@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { addSlot, getSlot } from "../../helper/helperTurf";
+import { addSlot, bookSlot, getSlot } from "../../helper/helperTurf";
 import "../../style/modal.css";
 import CalenderComp from "../CalenderComp";
 import RowRadioButtonsGroup from "../RowRadioButtonsGroup";
@@ -9,11 +9,10 @@ import Modal from "./Modal";
 import TimeSlot from "./TimeSlot";
 import useFetch from "../../hook/fetch.hook";
 
-export default function SlotUpdate({
+export default function BookSlot({
   modal,
   setModal,
-  setSecondModal,
-  secondModal,
+
 }) {
   const [mod, setMod] = useState(false);
   const [message, setMessage] = useState("");
@@ -22,19 +21,20 @@ export default function SlotUpdate({
   const [game, setGame] = useState("");
   const [play, setPlay] = useState("");
   const [data, setData] = useState();
-  const [nextButton, setnextBotton] = useState(false);
   const { id } = useParams();
   const [date, setDate] = useState(new Date());
   const [{ isLoading, apiData, serverError }] = useFetch(`getOneTurf/${id}`);
   const [next, setnext] = useState(false);
+  const [nextButton, setnextBotton] = useState(false);
+  const [bookButton, setBookBotton] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
- 
   const handleSecondModal = () => {};
 
   const toggleModal = () => {
     setModal(!modal);
     setnext(false)
     setnextBotton(false)
+    setBookBotton(false)
   };
 
   if (modal) {
@@ -49,41 +49,15 @@ export default function SlotUpdate({
     setMessage("message");
   };
   const [time, setTime] = useState([]);
-  const times = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-  ];
-  // useEffect(() => {
-  //   setTime(times);
-  // }, []);
+
+
   const handleTime = (play) => {
     setPlay(play);
   };
 
   const handleNext = async () => {
     setnext(!next)
+    setnextBotton(false)
     // setSecondModal(!secondModal);
     const slot = await getSlot(id, play, date);
     setData(slot);
@@ -98,10 +72,11 @@ export default function SlotUpdate({
   
   };
   const handleSubmit = () => {
-    const addSlotPromise = addSlot(id, slot, date, play);
+    
+    const addSlotPromise = bookSlot(id,play,date,slot)
     toast.promise(addSlotPromise, {
       loading: "updating..",
-      success: <b>Slot added</b>,
+      success: <b>Slot Booked</b>,
       error: <b>slot already exist</b>,
     });
     addSlotPromise.then(() => {
@@ -109,15 +84,6 @@ export default function SlotUpdate({
     });
   };
 
-  useEffect(()=>{
-    times.map((t)=>{
-      for(let i = 0 ;i< data?.slots?.length;i++){
-        if(t != data?.slots?.slot){
-          setTime(t)
-        }
-      }
-    })
-  },[data])
 
   return (
     <>
@@ -275,20 +241,14 @@ export default function SlotUpdate({
                     </div>
                   </div>
                   <div className="flex justify-center mt-10 ">
-                  { nextButton && <button
+                    {nextButton && <button
                       onClick={handleNext}
                       type="button"
                       class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                     >
                       Next
                     </button>}
-                    {/* <button
-                  onClick={handleSubmit}
-                  type="button"
-                  class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                >
-                  Update
-                </button> */}
+                   
                   </div>
                 </div>
               </div>
@@ -305,9 +265,9 @@ export default function SlotUpdate({
               <h2 className="font-bold text-lg text-red-500 ">
                 Select Time slot
               </h2>
-              <div class="grid grid-cols-8 gap-3 mt-8">
+              <div onClick={()=>setBookBotton(true)} class="grid grid-cols-8 gap-3 mt-8">
                 {
-                  times.map((time)=> parseInt(time) > currentTime && (
+                  data?.slots.map((time)=> time.booked == false && (
                     < >
                     <input
                       onChange={(e) => {
@@ -315,7 +275,7 @@ export default function SlotUpdate({
                       }}
                       id="red-radio"
                       type="radio"
-                      value={time}
+                      value={time.slot}
                       name="colored-radio"
                       class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     />
@@ -323,7 +283,7 @@ export default function SlotUpdate({
                       for="red-radio"
                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      {time+":00"}
+                      {time.slot+":00"}
                     </label>
                   </>
                   ))
@@ -339,13 +299,13 @@ export default function SlotUpdate({
                 >
                   Back
                 </button>
-                <button
+                {bookButton &&<button
                 onClick={handleSubmit}
                   type="button"
                   class="inline-block px-6 py-2 border-2 border-green-500 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
                 >
-                  Update
-                </button>
+                  Book
+                </button>}
               </div>
             </div>
           </div>)}

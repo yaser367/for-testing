@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hook/fetch.hook";
+import BookSlot from "./BookSlot";
 import SalesReport from "./SalesReport";
 import SlotUpdate from "./SlotUpdate";
 import TimeSlot from "./TimeSlot";
@@ -11,6 +12,7 @@ const Oneturf = () => {
   const [data, setData] = useState("");
   const [image, setImage] = useState([]);
   const [sports, setSports] = useState([]);
+  const [secModal,setSecModal] = useState(false)
   const { id } = useParams();
   const [modal, setModal] = useState(false);
   const [{ isLoading, apiData, serverError }] = useFetch(
@@ -20,6 +22,9 @@ const Oneturf = () => {
   const showModal = () => {
     setModal(true);
   };
+  const showSecModal = ()=>{
+    setSecModal(true)
+  }
   const [hover, setHover] = useState(false);
 
   const handleHover = () => {
@@ -34,7 +39,7 @@ const Oneturf = () => {
     <div>
       <TimeSlot secondModal={secondModal} setSecondModal={setSecondModal} />
       <SlotUpdate modal={modal} secondModal={secondModal} setModal={setModal} setSecondModal={setSecondModal} />
-     
+     <BookSlot modal={secModal} setModal={setSecModal} />
       <div className=" mt-7 pb-5 p-3 ">
         <div>
 
@@ -81,7 +86,7 @@ const Oneturf = () => {
                 Add slots
               </button>
               <button
-                onClick={showModal}
+                onClick={showSecModal}
                 type="button"
                 class="inline-block px-6 py-2 border-2 border-green-400 text-green-400 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
               >

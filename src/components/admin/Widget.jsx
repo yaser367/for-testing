@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../style/Widget.scss'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {MdOutlinePersonOutline} from 'react-icons/md'
 import {GiShoppingBag} from 'react-icons/gi'
 import {MdAdminPanelSettings} from 'react-icons/md'
+import { getAllOrder, getAllTurfAdmin, getAllUsers } from '../../helper/helperAdmin';
 
 const Widget = ({type}) => {
+
+  const [apiData,setApiData] = useState([])
+  const [turfAdmin,setTurfAdmin] = useState([])
+  const [order,setOrder] = useState([])
+  const fetchData = async() => {
+    const users = await getAllUsers()
+    setApiData(users)
+    const turfAd = await getAllTurfAdmin()
+    setTurfAdmin(turfAd)
+    const ord = await getAllOrder()
+    setOrder(ord) 
+  }
+
+  useEffect(()=>{
+    fetchData()
+  },[])
   let data;
 
   switch (type){
@@ -56,12 +73,12 @@ const Widget = ({type}) => {
       default:
         break;
   }
-
+console.log(data.title)
   return (
     <div className='flex flex-1 justify-between widget mr-10 p-5 h-[150px]'>
         <div className='left flex flex-col justify-between'>
             <span className='title font-bold text-lg text-gray-400'>{data.title}</span>
-            <span className='counter text-2xl'>283</span>
+            <span className='counter text-2xl'>{ data.title == 'USERS' && apiData?.length || data.title == 'TURF ADMINS'&& turfAdmin.length || data.title == 'ORDERS'&& order.length  }</span>
             <span className='link text-sm border-b-2'>{data.link}</span>
             </div>
         <div className='right flex flex-col justify-between'>
