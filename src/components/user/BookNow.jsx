@@ -87,6 +87,7 @@ const BookNow = ({ user }) => {
     handleShow()
     
   }, [date]);
+  console.log(data)
 
   return (
     <div className="bg-white mt-7 w-full h-[900px] pt-9">
