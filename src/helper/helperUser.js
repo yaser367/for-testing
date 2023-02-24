@@ -104,7 +104,6 @@ export async function generateOtp(username) {
       status,
     } = await axios.get("api/generateOtp", { params: { username } });
 
-    // send mail with the OTP
     if (status === 201) {
       let {
         data: { email },
@@ -160,23 +159,37 @@ export async function getFilteredData(game) {
     const {
       data: { turfs },
     } = await axios.get(`api/filterd/${game}`);
-    console.log(turfs);
     return turfs;
   } catch (error) {
     return Promise.reject({ error });
   }
 }
 
-
-export async function checkout(amount, slot, game, id, username,date) {
+export async function checkout(amount, slot, game, id, username, date) {
   try {
-    console.log(username)
     const {
-      data: { order,booking },
-    } = await axios.post("api/checkout", { amount, slot, game, id, username,date });
-    console.log(booking)
-    return {order,booking};
+      data: { order, booking },
+    } = await axios.post("api/checkout", {
+      amount,
+      slot,
+      game,
+      id,
+      username,
+      date,
+    });
+
+    return { order, booking };
   } catch (error) {
     return Promise.reject({ error });
   }
+}
+
+export async function getOrder() {
+  try {
+    const {
+      data: { order },
+    } = await axios.get("/api/getOrders");
+    console.log(order)
+    return order; 
+  } catch (error) {}
 }

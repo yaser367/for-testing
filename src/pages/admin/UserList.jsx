@@ -35,7 +35,7 @@ const UserList = () => {
     updatePromise.then(() => {
       localStorage.removeItem("token")
       setModal(!modal);
-      const usersData = getAllUsers();
+      const usersData = getAllUsers(navigate);
       usersData.then(async () => {
         const users = await usersData;
         setUser(users);
@@ -50,7 +50,7 @@ const UserList = () => {
     setModalHeader("Block / Unblock User");
   };
   const fetchData = async () => {
-    const users = await getAllUsers();
+    const users = await getAllUsers(navigate);
     setUser(users);
     const base64 = await convertToBase64(users.profile);
     setFile(base64);

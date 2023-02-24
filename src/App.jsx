@@ -34,6 +34,9 @@ import Layout from "./components/Layout";
 import Auth from "./components/TurfAdmin/Auth";
 import { AuthorizeUser } from "./components/user/Auth";
 import OrderSuccessPage from "./components/user/OrderSuccessPage";
+import SomethingWentWrong from "./components/SomethingWentWrong";
+import Order from "./pages/user/Order";
+import PageNotFond from "./components/PageNotFond";
 
 function App() {
 
@@ -62,6 +65,8 @@ function App() {
       <Route path="/otp/:userName" element={<Otp />} />
       <Route path="/reset/:id" element={<Reset />} />
       <Route path="/orderSuccess" element={<OrderSuccessPage/>} />
+      <Route path="/wentWrong" element={<SomethingWentWrong/>} />
+      <Route path="/showOrders" element={<Order/>} />
 
       {/* TurfAdmin Side */}
       <Route path="/" element={<Layout />}>
@@ -92,6 +97,7 @@ function App() {
       <Route path="/admin/requests" element={<RequestsPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/viewDetails/:id" element={<RequestTurfDetails />} />
+      <Route path="*" element={<PageNotFond />} />
     </Routes>
   );
 }

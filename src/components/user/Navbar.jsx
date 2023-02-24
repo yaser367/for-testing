@@ -28,7 +28,7 @@ const Navbar = () => {
           <Link to="/profile">
             <li className="pt-7 pl-6 cursor-pointer">Profile</li>
           </Link>
-          <li className="pt-7 pl-6 cursor-pointer">About</li>
+         <Link to='/showOrders'>  <li className="pt-7 pl-6 cursor-pointer">Orders</li></Link>
           <li className="pt-7 pl-6 cursor-pointer" onClick={userLogout}>
             Logout
           </li>

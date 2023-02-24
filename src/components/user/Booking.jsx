@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { getFilteredData } from "../../helper/helperUser";
 import useFetch from "../../hook/fetch.hook";
+import usepagination from "../../hook/pagination.hook";
 import "../../style/Booking.css";
 
 const Booking = () => {
@@ -12,12 +13,12 @@ const Booking = () => {
   const [tennis, setTennis] = useState(false);
   const [other, setOther] = useState(false);
   const [filter, setFilet] = useState(false);
-  const [turf,setTurf] = useState([])
+  const [turf, setTurf] = useState([]);
 
   const handleClick = () => {
     setClick(true);
   };
-  const handleFootball = async() => {
+  const handleFootball = async () => {
     setFootball(!football);
     setOther(false);
     setTennis(false);
@@ -27,11 +28,11 @@ const Booking = () => {
     }
     if (!football) {
       setFilet(true);
-      const turfs =await getFilteredData("football");
-      setTurf(turfs)
+      const turfs = await getFilteredData("football");
+      setTurf(turfs);
     }
   };
-  const handleCricket = async() => {
+  const handleCricket = async () => {
     setCricket(!cricket);
     setFootball(false);
     setOther(false);
@@ -41,11 +42,11 @@ const Booking = () => {
     }
     if (!cricket) {
       setFilet(true);
-      const turfs =await getFilteredData("cricket");
-      setTurf(turfs)
+      const turfs = await getFilteredData("cricket");
+      setTurf(turfs);
     }
   };
-  const handleTennis = async() => {
+  const handleTennis = async () => {
     setTennis(!tennis);
     setCricket(false);
     setFootball(false);
@@ -55,11 +56,11 @@ const Booking = () => {
     }
     if (!tennis) {
       setFilet(true);
-      const turfs =await getFilteredData("tennis");
-      setTurf(turfs)
+      const turfs = await getFilteredData("tennis");
+      setTurf(turfs);
     }
   };
-  const handleOther = async() => {
+  const handleOther = async () => {
     setOther(!other);
     setTennis(false);
     setCricket(false);
@@ -69,18 +70,37 @@ const Booking = () => {
     }
     if (!other) {
       setFilet(true);
-      const turfs =await getFilteredData("other");
-      setTurf(turfs)
+      const turfs = await getFilteredData("other");
+      setTurf(turfs);
     }
   };
-  const [{ isLoading, apiData, serverError }] = useFetch("getAllTurfs");
+  const [pageIndex, setPageIndex] = useState(1);
+  const { loading, error, lists, hasMore } = usepagination(
+    "getAllTurfs?page=",
+    pageIndex
+  );
+  const observer = useRef();
+
+  const lastVendorRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entires) => {
+        if (entires[0].isIntersecting && hasMore) {
+          setPageIndex((prevIndx) => prevIndx + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [hasMore]
+  );
 
   return (
     <div className="w-full">
       <div class="grid md:grid-cols-3  top-0  w-full  bg-slate-300 p-8 pt-20 pb-40">
         <div class=" mt-16 ">
           <h1 className="font-semibold tracking-widest text-2xl">Filters</h1>
-       
+
           <div className="flex mt-5">
             <div
               onClick={handleFootball}
@@ -123,7 +143,6 @@ const Booking = () => {
           >
             <p className="text-center text-red-500">other</p>
           </div>
-     
         </div>
 
         <div class="col-span-2 inline ">
@@ -191,65 +210,135 @@ const Booking = () => {
           </div>
 
           <div className=" scrollbar-hide grid md:grid-cols-3 sm:grid-cols-2 mt-10 gap-10 px-24 max-h-[700px]">
-            {!filter? apiData &&
-              apiData
-                .filter((turf) => {
-                  return search.toLowerCase() === ""
-                    ? turf
-                    : turf.TurfName.toLowerCase().includes(search) ||
-                        turf.TurfName.toLowerCase().includes(search);
-                })
-                .map((turf, idx) => (
-                  <Link to={`/turf/${turf._id}`}>
-                    <div
-                      key={idx}
-                      className="cursor-pointer  h-[300px]  bg-white rounded-lg "
-                    >
-                      <img src='https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697349/turf1_vazm7c.jpg' className="h-[130px] w-full" alt="" />
-                      <p className="text-center font-bold truncate">
-                        {turf?.TurfName}
-                      </p>
-
-                      <div class="flex flex-col justify-center items-center truncate">
-                        football,cricket
-                        <button
-                          type="button"
-                          class="mt-16 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            {!filter
+              ? lists &&
+                lists
+                  .filter((turf) => {
+                    return search.toLowerCase() === ""
+                      ? turf
+                      : turf.TurfName.toLowerCase().includes(search) ||
+                          turf.TurfName.toLowerCase().includes(search);
+                  })
+                  .map((turf, idx) =>
+                    lists.length === idx + 1 ? (
+                      <Link to={`/turf/${turf._id}`}>
+                        <div
+                          ref={lastVendorRef}
+                          key={idx}
+                          className="cursor-pointer  h-[300px]  bg-white rounded-lg "
                         >
-                          Book
-                        </button>
-                      </div>
-                    </div>
-                  </Link>
-                )): turf&& turf.filter((turf) => {
-                  return search.toLowerCase() === ""
-                    ? turf
-                    : turf.TurfName.toLowerCase().includes(search) ||
-                        turf.TurfName.toLowerCase().includes(search);
-                }).map((t,idx)=>(
-                  <Link to={`/turf/${t._id}`}>
-                    <div
-                      key={idx}
-                      className="cursor-pointer  h-[300px]  bg-white rounded-lg "
-                    >
-                      <img src='https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697349/turf1_vazm7c.jpg' className="h-[130px] w-full" alt="" />
-                      <p className="text-center font-bold truncate">
-                        {t.TurfName}
-                      </p>
+                          <img
+                            src={turf?.ImageUrl[0]}
+                            className="h-[130px] w-full"
+                            alt=""
+                          />
+                          <p className="text-center font-bold truncate">
+                            {turf?.TurfName}
+                          </p>
 
-                      <div class="flex flex-col justify-center items-center truncate">
-                        football,cricket
-                        <button
-                          type="button"
-                          class="mt-16 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                          <div class="flex flex-col justify-center items-center truncate">
+                            football,cricket
+                            <button
+                              type="button"
+                              class="mt-16 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            >
+                              Book
+                            </button>
+                          </div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <Link to={`/turf/${turf._id}`}>
+                        <div
+                          key={idx}
+                          className="cursor-pointer  h-[300px]  bg-white rounded-lg "
                         >
-                          Book
-                        </button>
-                      </div>
-                    </div>
-                  </Link>
-                ))
-                }
+                          <img
+                            src={turf?.ImageUrl[0]}
+                            className="h-[130px] w-full"
+                            alt=""
+                          />
+                          <p className="text-center font-bold truncate">
+                            {turf?.TurfName}
+                          </p>
+
+                          <div class="flex flex-col justify-center items-center truncate">
+                            football,cricket
+                            <button
+                              type="button"
+                              class="mt-16 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            >
+                              Book
+                            </button>
+                          </div>
+                        </div>
+                      </Link>
+                    )
+                  )
+              : turf &&
+                turf
+                  .filter((turf) => {
+                    return search.toLowerCase() === ""
+                      ? turf
+                      : turf.TurfName.toLowerCase().includes(search) ||
+                          turf.TurfName.toLowerCase().includes(search);
+                  })
+                  .map((t, idx) =>
+                    turf.length === idx + 1 ? (
+                      <Link to={`/turf/${t._id}`}>
+                        <div
+                          ref={lastVendorRef}
+                          key={idx}
+                          className="cursor-pointer  h-[300px]  bg-white rounded-lg "
+                        >
+                          <img
+                            src={t.ImageUrl[0]}
+                            className="h-[130px] w-full"
+                            alt=""
+                          />
+                          <p className="text-center font-bold truncate">
+                            {t.TurfName}
+                          </p>
+
+                          <div class="flex flex-col justify-center items-center truncate">
+                            football,cricket
+                            <button
+                              type="button"
+                              class="mt-16 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            >
+                              Book
+                            </button>
+                          </div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <Link to={`/turf/${t._id}`}>
+                        <div
+                          key={idx}
+                          className="cursor-pointer  h-[300px]  bg-white rounded-lg "
+                        >
+                          <img
+                            src={t.ImageUrl[0]}
+                            className="h-[130px] w-full"
+                            alt=""
+                          />
+                          <p className="text-center font-bold truncate">
+                            {t.TurfName}
+                          </p>
+
+                          <div class="flex flex-col justify-center items-center truncate">
+                            football,cricket
+                            <button
+                              type="button"
+                              class="mt-16 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            >
+                              Book
+                            </button>
+                          </div>
+                        </div>
+                      </Link>
+                    )
+                  )}
           </div>
         </div>
       </div>

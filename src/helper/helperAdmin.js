@@ -1,13 +1,15 @@
 import axios from "axios";
 axios.defaults.baseURL = import.meta.env.VITE_API_SERVER_DOMAIN;
 
-export async function getAllUsers() {
+
+export async function getAllUsers(navigate) {
   try {
     const {
       data: { users },
     } = await axios.get("/api/admin/users");
     return users;
   } catch (error) {
+    navigate('/wentWrong')
     return Promise.reject({ error });
   }
 }
@@ -54,44 +56,42 @@ export async function getReq() {
     const {
       data: { turfs },
     } = await axios.get("/api/admin/getTurfRequest");
-    console.log(turfs)
+    console.log(turfs);
     return turfs;
   } catch (error) {
     return Promise.reject({ error });
   }
 }
 
-export async function acceptReq(id){
+export async function acceptReq(id) {
   try {
-    await axios.put('/api/admin/acceptReq',{id})
+    await axios.put("/api/admin/acceptReq", { id });
   } catch (error) {
     return Promise.reject({ error });
-    
   }
 }
 
-export async function rejectReq(id){
+export async function rejectReq(id) {
   try {
-    await axios.put('/api/admin/rejectReq',{id})
+    await axios.put("/api/admin/rejectReq", { id });
   } catch (error) {
     return Promise.reject({ error });
-    
   }
-}   
+}
 
-export async function getAllOrder (){
+export async function getAllOrder() {
   try {
-    const {data:{order}} = await axios.get('/api/admin/getAllOrder')
+    const {
+      data: { order },
+    } = await axios.get("/api/admin/getAllOrder");
     return order;
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 }
 
-export async function totalSale (){
+export async function totalSale() {
   try {
-    const {data:{totalsales}} = await axios.get('/api/admin/totalSale')
-  } catch (error) {
-    
-  }
+    const {
+      data: { totalsales },
+    } = await axios.get("/api/admin/totalSale");
+  } catch (error) {}
 }

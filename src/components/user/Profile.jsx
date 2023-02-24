@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
@@ -11,12 +11,14 @@ import { updateUser } from "../../helper/helperUser";
 import styles from "../../style/Username.module.css";
 import extend from "../../style/Profile.module.css";
 import { useState } from "react";
+import axios from "axios";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState();
   const [{ isLoading, apiData, serverError }] = useFetch();
-
+  const [url, setUrl] = useState("");
+  const [pro, setPro] = useState();
   const formik = useFormik({
     initialValues: {
       firstname: apiData?.firstname || "",
@@ -32,22 +34,50 @@ const Profile = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       values = await Object.assign(values, {
-        profile: file || apiData?.profile || "",
+        profile: url || apiData?.profile || "",
       });
-      let updatePromise = updateUser(values);
+      let updatePromise = await updateUser(values);
 
-      toast.promise(updatePromise, {
-        loading: "Updating",
-        success: <b>Update Successfully...!</b>,
-        error: <b>Could not Update!..</b>,
-      });
+      // toast.promise(updatePromise, {
+      //   loading: "Updating",
+      //   success: <b>Update Successfully...!</b>,
+      //   error: <b>Could not Update!..</b>,
+      // });
+      toast.success("updated");
     },
   });
   /**fromik doesn't support file upload so we need to create this handler */
   const onUpload = async (e) => {
+  
+    const propic = e.target.files[0]
+    const formData = new FormData();
+    formData.append("file", propic);
+    formData.append("upload_preset", "kay6oyd9");
+    formData.append("cloud_name", "dxdkwzuyr");
+    await axios
+      .post(
+        "https://api.cloudinary.com/v1_1/dxdkwzuyr/image/upload",
+        formData,
+        {
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        const img = data.url;
+        setUrl(img);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
     const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64);
   };
+
+
+  useEffect(()=>{
+    setPro(apiData?.profile)
+  },[apiData?.profile])
 
   // if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
   if (serverError)
@@ -74,8 +104,8 @@ const Profile = () => {
                   <img
                     className={`${styles.profile_img} ${extend.profile_img}`}
                     src={
-                      apiData?.profile ||
                       file ||
+                      apiData?.profile ||
                       "https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697293/avatar_d2vzjc.png"
                     }
                     alt="avatar"

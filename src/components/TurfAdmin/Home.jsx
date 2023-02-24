@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Modal from "./Modal";
+import usepagination from "../../hook/pagination.hook";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,6 +19,10 @@ const Home = () => {
 
   const [deleteMessage, setDeleteMessage] = useState(null);
   const [modal, setModal] = useState(false);
+  const [pageIndex, setPageIndex] = useState(1);
+
+ 
+  
 
   const showDeleteModal = (Id) => {
     setId(Id);
@@ -43,48 +48,45 @@ const Home = () => {
     });
   };
 
-  let loading;
   useEffect(() => {
-    loading = true;
     const getDetails = getAllturf(admin);
     getDetails.then(async () => {
       const turfs = await getDetails;
       setTurf(turfs);
-      loading = false;
     });
   }, []);
 
-  if (loading) {
-    return (
-      <Stack padding={4} spacing={1}>
-        <Skeleton height="40px" isLoaded={isLoaded}>
-          <Box>Hello World!</Box>
-        </Skeleton>
-        <Skeleton
-          height="40px"
-          isLoaded={isLoaded}
-          bg="green.500"
-          color="white"
-          fadeDuration={1}
-        >
-          <Box>Hello React!</Box>
-        </Skeleton>
-        <Skeleton
-          height="40px"
-          isLoaded={isLoaded}
-          fadeDuration={4}
-          bg="blue.500"
-          color="white"
-        >
-          <Box>Hello ChakraUI!</Box>
-        </Skeleton>
+  // if (loading) {
+  //   return (
+  //     <Stack padding={4} spacing={1}>
+  //       <Skeleton height="40px" isLoaded={isLoaded}>
+  //         <Box>Hello World!</Box>
+  //       </Skeleton>
+  //       <Skeleton
+  //         height="40px"
+  //         isLoaded={isLoaded}
+  //         bg="green.500"
+  //         color="white"
+  //         fadeDuration={1}
+  //       >
+  //         <Box>Hello React!</Box>
+  //       </Skeleton>
+  //       <Skeleton
+  //         height="40px"
+  //         isLoaded={isLoaded}
+  //         fadeDuration={4}
+  //         bg="blue.500"
+  //         color="white"
+  //       >
+  //         <Box>Hello ChakraUI!</Box>
+  //       </Skeleton>
 
-        <Box textAlign="center">
-          <Button onClick={() => setIsLoaded((v) => !v)}>toggle</Button>
-        </Box>
-      </Stack>
-    );
-  }
+  //       <Box textAlign="center">
+  //         <Button onClick={() => setIsLoaded((v) => !v)}>toggle</Button>
+  //       </Box>
+  //     </Stack>
+  //   );
+  // }
   return (
     <div className="pb-48 bg-white min-h-[800px] ">
       <Modal
