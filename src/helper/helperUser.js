@@ -39,27 +39,29 @@ export async function getUser({ username }) {
 export async function registerUser(credentials) {
   try {
     let { username, email } = credentials;
-    console.log(username, email);
 
     const {
       data: { code },
       status,
     } = await axios.get("api/generateOtp");
+    console.log(code)
     let sentcode = code;
     let text = `Your account verification OTP is ${code}. Verify and enjoy with us.`;
     if (status === 201) {
-      const { status } = await axios.post("/api/registerMail", {
+      const { status } = await axios.post("api/registerMail", {
         username,
         userEmail: email,
         text,
         subject: "verification mail",
       });
-      console.log(status);
+      console.log(status+"status")
       if (status === 200) {
-        const {
-          data: { message },
-          status,
-        } = await axios.post("api/register", { credentials, sentcode });
+        // const {
+        //   data: { message },
+        //   status,
+        // } = 
+        console.log(credentials,sentcode)
+        await axios.post("api/register", { credentials, sentcode });
       }
     }
     return Promise.resolve(code);
