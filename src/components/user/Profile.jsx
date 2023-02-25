@@ -89,20 +89,20 @@ const Profile = () => {
         <Toaster position="top-center" reverseOrder={false}></Toaster>
         <div className="flex justify-center items-center h-screen">
           <div
-            className={`${styles.glass} ${extend.glass}`}
+            className={`${styles.glasspro} ${extend.glass}`}
             style={{ width: "45%" }}
           >
             <div className="title flex flex-col items-center">
-              <h4 className="text-2xl font-bold">Profile</h4>
-              <span className="py-4 text-xl w-2/3 text-center text-gray-500">
+              <h4 className="md:text-2xl text-lg font-bold">Profile</h4>
+              <span className="py-4 md:text-xl text-sm md:w-2/3 w-1/2 text-center text-gray-500">
                 You can update your profile details.
               </span>
             </div>
             <form className="py-1" onSubmit={formik.handleSubmit}>
-              <div className="profile flex justify-center py-4">
+              <div className="profile flex justify-center py-4 ">
                 <label htmlFor="profile">
                   <img
-                    className={`${styles.profile_img} ${extend.profile_img}`}
+                    className={`md:w-40 w-20 ${styles.profile_img} ${extend.profile_img}`}
                     src={
                       file ||
                       apiData?.profile ||
@@ -120,7 +120,7 @@ const Profile = () => {
                 />
               </div>
               <div className="textbox flex flex-col items-center gap-6">
-                <div className="name flex w-3/4 gap-10">
+                <div className="name flex md:w-3/4 w-3/5 md:gap-10 gap-3">
                   <input
                     {...formik.getFieldProps("firstname")}
                     className={`${styles.textbox} ${extend.textbox}`}
@@ -135,7 +135,7 @@ const Profile = () => {
                   />
                 </div>
 
-                <div className="name flex w-3/4 gap-10">
+                <div className="name flex md:w-3/4 w-3/5 md:gap-10 gap-3">
                   <input
                     {...formik.getFieldProps("mobile")}
                     className={`${styles.textbox} ${extend.textbox}`}
@@ -151,7 +151,7 @@ const Profile = () => {
                 </div>
                 <input
                   {...formik.getFieldProps("address")}
-                  className={`${styles.textbox} ${extend.textbox}`}
+                  className={`md:w-3/4 w-3/5 ${styles.textbox} ${extend.textbox}`}
                   type="text"
                   placeholder="Address"
                 />

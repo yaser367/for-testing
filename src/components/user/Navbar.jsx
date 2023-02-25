@@ -16,8 +16,8 @@ const Navbar = () => {
   }
   return (
     <div className="bg-black ">
-      <div className="bg-black flex justify-between w-full max-w-[1240px] mx-auto px-3 items-center h-16 text-white relative">
-        <img className="w-[100px] pt-4 " src='https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697349/turfplay_logo_nojsk3.png' alt="" />
+      <div className="bg-black flex justify-between w-full max-w-[1240px] mx-auto px-3 items-center h-16 text-white ">
+        <img className="md:w-[100px] w-[80px] pt-4 " src='https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697349/turfplay_logo_nojsk3.png' alt="" />
         <ul className="hidden md:flex">
           <Link to="/">
             <li className="pt-7 pl-6 cursor-pointer">Home</li>
@@ -43,7 +43,7 @@ const Navbar = () => {
         <div
           className={
             !nav
-              ? "fixed left-0 top-0 w-[60%] h-full border-r boder-r-grey-900 bg-[#070707] ease-in-out duration-500 block md:hidden cursor-pointer"
+              ? "fixed z-50 left-0 top-0 w-[40%] h-full border-r boder-r-grey-900 bg-[#070707] ease-in-out duration-500 block md:hidden cursor-pointer"
               : "fixed left-[100%] "
           }
         >

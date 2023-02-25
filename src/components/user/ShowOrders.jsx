@@ -9,7 +9,6 @@ const ShowOrders = () => {
   const [data, setData] = useState();
   const token = localStorage.getItem("token");
   const [{ isLoading, apiData, serverError }] = useFetch();
-  console.log(apiData);
   const [pageIndex, setPageIndex] = useState(1);
   const { loading, error, lists, hasMore } = usepagination(
     "getOrders?page=",

@@ -4,7 +4,7 @@
     box-shadow:0 4px 30px #4646460b ;
     backdrop-filter: blur(7.1px);
     border: 3px solid rgba(255, 255, 255, 0.3);
-    @apply border-4 border-gray-50 shrink-0 w-[20%] rounded-3xl py-10 px-7 min-w-max
+    @apply border-4 border-gray-50 shrink-0 w-[20%] rounded-3xl md:py-10 md:px-7 min-w-max
 }
 
 .profile_img{
@@ -13,7 +13,7 @@
 }
 
 .textbox{
-    @apply border-0 px-5 py-3 rounded-xl w-3/4 shadow-sm text-lg;
+    @apply border-0 md:px-5 px-1 py-3 rounded-xl w-3/4 shadow-sm text-lg;
     @apply focus:outline-none;
 }
 .btn{
@@ -26,15 +26,23 @@
 }
 .background_img{
     background-color: bisque;
-    background-image: url('../assets/bg-2.jpg');
+    background-image: url('https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697347/bg-2_y3ywbw.jpg');
 
 }
 
 .profile_back{
-    background-image: url('../assets/LoginBackground.jpg');
+    background-image: url('https://res.cloudinary.com/dxdkwzuyr/image/upload/v1676697348/LoginBackground_eewhds.jpg');
 
 }
 
 input[type='file']{
     display: none;
+}
+.glasspro{
+    background: rgba(106, 222, 11, 0.55);
+    border-radius: 16px;
+    box-shadow:0 4px 30px #4646460b ;
+    backdrop-filter: blur(7.1px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    @apply border-4 border-gray-50 shrink-0 w-[20%] rounded-3xl md:py-10 md:px-7 min-w-[300px]
 }
