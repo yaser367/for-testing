@@ -38,29 +38,32 @@ export async function getUser({ username }) {
 
 export async function registerUser(credentials) {
   try {
+    console.log(credentials+"cred")
     let { username, email } = credentials;
 
     const {
       data: { code },
       status,
     } = await axios.get("api/generateOtp");
-    console.log(code)
+    console.log(code);
     let sentcode = code;
     let text = `Your account verification OTP is ${code}. Verify and enjoy with us.`;
+    console.log(status)
     if (status === 201) {
+      console.log("registermail")
       const { status } = await axios.post("api/registerMail", {
         username,
         userEmail: email,
         text,
         subject: "verification mail",
       });
-      console.log(status+"status")
+      console.log(status + "status");
       if (status === 200) {
         // const {
         //   data: { message },
         //   status,
-        // } = 
-        console.log(credentials,sentcode)
+        // } =
+        console.log(credentials, sentcode);
         await axios.post("api/register", { credentials, sentcode });
       }
     }
@@ -191,7 +194,7 @@ export async function getOrder() {
     const {
       data: { order },
     } = await axios.get("/api/getOrders");
-    console.log(order)
-    return order; 
+    console.log(order);
+    return order;
   } catch (error) {}
 }
