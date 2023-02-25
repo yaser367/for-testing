@@ -24,16 +24,18 @@ const Register = () => {
       values = await Object.assign(values, { profile: file || "" });
       console.log(values);
       const userName = values.username;
-      let registerPromise = registerUser(values);
+      let registerPromise = await registerUser(values);
       console.log(registerPromise);
-      toast.promise(registerPromise, {
-        loading: "Creating..",
-        success: <b>Registred Successfully...!</b>,
-        error: <b>Could not Register.</b>,
-      });
+      // toast.promise(registerPromise, {
+      //   loading: "Creating..",
+      //   success: <b>Registred Successfully...!</b>,
+      //   error: <b>Could not Register.</b>,
+      // });
 
-      registerPromise.then(function () {
-        console.log("first")
+      registerPromise.then(function (data) {
+        toast.success("success")
+        console.log(userName+"user")
+        console.log(data+"data")
         navigate(`/otp/${userName}`);
       });
     },
