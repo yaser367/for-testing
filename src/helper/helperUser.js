@@ -51,13 +51,14 @@ export async function registerUser(credentials) {
     console.log(status)
     if (status === 201) {
       console.log("registermail")
-      const { status } = await axios.post("api/registerMail", {
+      const { status ,error } = await axios.post("api/registerMail", {
         username,
         userEmail: email,
         text,
         subject: "verification mail",
       });
       console.log(status + "status");
+      console.log(error + "error");
       if (status === 200) {
         // const {
         //   data: { message },
