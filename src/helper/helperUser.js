@@ -51,7 +51,7 @@ export async function registerUser(credentials) {
     console.log(status)
     if (status === 201) {
       console.log("registermail")
-      const { status ,error } = await axios.post("api/registerMail", {
+      const { status ,error  } = await axios.post("api/registerMail", {
         username,
         userEmail: email,
         text,
@@ -70,7 +70,9 @@ export async function registerUser(credentials) {
     }
     return Promise.resolve(code);
   } catch (error) {
-    console.log(error)
+    console.log("frot"+ error)
+    console.log("mes"+ error.message)
+    console.log("res"+ error.response)
     return Promise.reject({ error });
   }
 }
