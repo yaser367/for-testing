@@ -69,6 +69,7 @@ export async function registerUser(credentials) {
     }
     return Promise.resolve(code);
   } catch (error) {
+    console.log(error)
     return Promise.reject({ error });
   }
 }
