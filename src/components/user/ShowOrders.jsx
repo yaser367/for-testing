@@ -29,6 +29,7 @@ const ShowOrders = () => {
     },
     [hasMore]
   );
+  
   return (
     <div className="bg-white min-h-[720px] mt-5">
       <div>
@@ -38,7 +39,7 @@ const ShowOrders = () => {
         <div class="flex flex-col mt-5 pb-10 overflow-scroll max-h-[600px]">
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div class="overflow-hidden">
+              {lists.length?(<div class="overflow-hidden">
                 <table class="min-w-full text-center text-sm font-light">
                   <thead class="border-b bg-slate-300 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
                     <tr>
@@ -102,7 +103,11 @@ const ShowOrders = () => {
                       )}
                   </tbody>
                 </table>
-              </div>
+              </div>):(
+                <div>
+                  <p className="text-center text-red-600">Please Order something....</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

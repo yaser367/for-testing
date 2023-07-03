@@ -11,7 +11,7 @@ const ViewLocaion = ({ lat, long, setLat, setLong, id }) => {
       <div>
         <ReactMapGL
           ref={myRef}
-          style={{ height: 400, width: "85%" }}
+          style={{ height: 400, width: "50%" }}
           initialViewState={{
             longitude: apiData?.lat || lat || 1.46546,
             latitude: apiData?.long || long || 1.654654,

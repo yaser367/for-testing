@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div className="hero-container text-white pb-2 ">
-      <video
+      {/* <video
         className="bgVideo "
         src="https://res.cloudinary.com/dxdkwzuyr/video/upload/v1676697133/football-background_cosml9.mp4"
         autoPlay
         muted
         loop
-      />
+      /> */}
 
       <div className=" md:mt-[-70px] sm:mt-[-76px] mt-[-75px] w-full h-screen mx-auto flex flex-col justify-center text-center">
         <h2 className="md:text-4xl sm:text-2xl font-bold">

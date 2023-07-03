@@ -102,7 +102,7 @@ const Profile = () => {
               <div className="profile flex justify-center py-4 ">
                 <label htmlFor="profile">
                   <img
-                    className={`md:w-40 w-20 ${styles.profile_img} ${extend.profile_img}`}
+                    className={`w-20 ${styles.profile_img} ${extend.profile_img}`}
                     src={
                       file ||
                       apiData?.profile ||

@@ -5,6 +5,8 @@ import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hook/fetch.hook";
 import ViewLocaion from "../Location/ViewLocation";
 
+import '../../style/TurfLocation.scss'
+
 const OneTurf = () => {
   const { id } = useParams();
   const [{ isLoading, apiData, serverError }] = useFetch(`getOneTurf/${id}`);
@@ -49,7 +51,7 @@ const OneTurf = () => {
             />
           </div>
         </div>
-        <div className="w-[90%] mx-auto ml-48  mt-16">
+        <div className="turfMap">
           <ViewLocaion
             id={id}
             lat={apiData?.lat}
