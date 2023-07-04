@@ -3,19 +3,21 @@ import { getOrder } from "../../helper/helperUser";
 import useFetch from "../../hook/fetch.hook";
 import usepagination from "../../hook/pagination.hook";
 import { useAuthStore } from "../../store/index";
+import { useParams } from "react-router-dom";
 
 const ShowOrders = () => {
+  const params = useParams()
+  const id = params.id
   const { username } = useAuthStore((state) => state.auth);
-  const [data, setData] = useState();
   const token = localStorage.getItem("token");
   const [{ isLoading, apiData, serverError }] = useFetch();
   const [pageIndex, setPageIndex] = useState(1);
+
   const { loading, error, lists, hasMore } = usepagination(
-    "getOrders?page=",
+    `getOrders/${id}?page=`,
     pageIndex
   );
   const observer = useRef();
-
   const lastVendorRef = useCallback(
     (node) => {
       if (loading) return;

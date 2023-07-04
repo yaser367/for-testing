@@ -12,6 +12,7 @@ const OneTurf = () => {
   const [{ isLoading, apiData, serverError }] = useFetch(`getOneTurf/${id}`);
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
+  
 
   useEffect(() => {
     setLat(apiData?.lat);

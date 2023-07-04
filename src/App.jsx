@@ -66,7 +66,7 @@ function App() {
       <Route path="/reset/:id" element={<Reset />} />
       <Route path="/orderSuccess" element={<OrderSuccessPage/>} />
       <Route path="/wentWrong" element={<SomethingWentWrong/>} />
-      <Route path="/showOrders" element={<Order/>} />
+      <Route path="/showOrders/:id" element={<Order/>} />
 
       {/* TurfAdmin Side */}
       <Route path="/" element={<Layout />}>

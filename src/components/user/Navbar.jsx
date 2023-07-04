@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { CgMenuGridO } from "react-icons/cg";
 import { AiOutlineCloseSquare } from "react-icons/ai";
 import { useNavigate, Link } from "react-router-dom";
+import useFetch from "../../hook/fetch.hook";
 
 const Navbar = () => {
   const [nav, setnav] = useState(true);
   const [select, setSelect] = useState(false);
+  const [{ isLoading, apiData, serverError }] = useFetch();
   const handleNav = () => {
     setnav(!nav);
   };
@@ -28,7 +30,7 @@ const Navbar = () => {
           <Link to="/profile">
             <li className="pt-7 pl-6 cursor-pointer">Profile</li>
           </Link>
-         <Link to='/showOrders'>  <li className="pt-7 pl-6 cursor-pointer">Orders</li></Link>
+         <Link to={`/showOrders/${apiData?._id}`}>  <li className="pt-7 pl-6 cursor-pointer">Orders</li></Link>
           <li className="pt-7 pl-6 cursor-pointer" onClick={userLogout}>
             Logout
           </li>
