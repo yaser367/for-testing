@@ -7,7 +7,7 @@ const ViewLocaion = ({ lat, long, setLat, setLong, id }) => {
   const [{ isLoading, apiData, serverError }] = useFetch(`getOneTurf/${id}`);
   useEffect(() => {
     if (!apiData?.long && !apiData?.lat) {
-      fetch(`http://localhost:8080/api/getOneTurf/${id}`)
+      fetch(`${import.meta.env.VITE_API_SERVER_DOMAIN}/api/getOneTurf/${id}`)
         .then((response) => {
           console.log(response)
           return response.json();
